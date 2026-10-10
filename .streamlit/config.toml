@@ -1,0 +1,14 @@
+# Theme theo nhận diện LogiQ Hub (poster khóa học): nền trắng, xanh dương đậm, card bo tròn.
+# Font Be Vietnam Pro + các chi tiết (logo, nhãn viết hoa, nút viên thuốc) nằm ở ui/theme.py.
+[theme]
+base = "light"
+primaryColor = "#1F5EEA"
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#F2F5FC"
+textColor = "#111827"
+linkColor = "#1F5EEA"
+borderColor = "#E5E7EB"
+baseRadius = "0.75rem"
+
+[client]
+toolbarMode = "minimal"      # ẩn menu dev cho người dùng thử
