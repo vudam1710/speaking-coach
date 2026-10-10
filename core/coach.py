@@ -72,5 +72,6 @@ def coach(question: str, answer: str, client: Anthropic | None = None) -> dict:
         "warnings": warnings,
         "meta": {"prompt_version": PROMPT_VERSION, "model": MODEL, "llm_calls": len(usages),
                  "input_tokens": sum(u["input_tokens"] for u in usages),
-                 "output_tokens": sum(u["output_tokens"] for u in usages)},
+                 "output_tokens": sum(u["output_tokens"] for u in usages),
+                 "cache_read_tokens": sum(u.get("cache_read_tokens", 0) for u in usages)},
     }

@@ -1,6 +1,7 @@
 """Save submissions + ratings to a dedicated Google Sheet (gspread + service account).
 
-Adapted from writing-coach. Tab `submissions`: 1 row per LLM step (step = coach | upgrade).
+Adapted from writing-coach. Tab `submissions`: 1 row per LLM step per answer (step = coach | upgrade); set_id groups the answers
+of one topic set, submission_id = one answer.
 Without consent, question_text / answer / result_json are left empty.
 Tab `feedback`: 1 row per rated item (student: up/down; reviewer: ✓/~/✗ + problem + comment).
 Tabs and headers are created on first run.
@@ -11,9 +12,9 @@ from zoneinfo import ZoneInfo
 
 TZ = ZoneInfo("Asia/Ho_Chi_Minh")
 
-SUBMISSION_COLS = ["submission_id", "created_at", "tester", "role", "consent", "step", "question_id",
+SUBMISSION_COLS = ["submission_id", "set_id", "created_at", "tester", "role", "consent", "step", "question_id",
                    "question", "answer", "level_cefr", "n_stuck", "n_warnings", "prompt_version", "model",
-                   "llm_calls", "input_tokens", "output_tokens", "seconds", "status", "result_json"]
+                   "llm_calls", "input_tokens", "output_tokens", "cache_read_tokens", "seconds", "status", "result_json"]
 FEEDBACK_COLS = ["submission_id", "created_at", "tester", "role", "item_id", "rating",
                  "verdict", "problem", "comment"]
 
@@ -22,10 +23,10 @@ def now() -> str:
     return datetime.now(TZ).strftime("%Y-%m-%d %H:%M:%S")
 
 
-def submission_row(sid: str, user_name: str, role: str, consent: bool, step: str, question_id: str,
+def submission_row(sid: str, set_id: str, user_name: str, role: str, consent: bool, step: str, question_id: str,
                    question: str, answer: str, r: dict | None, seconds: float, status: str = "ok") -> dict:
     """r = output of coach() or upgrade() (None on error)."""
-    row = {"submission_id": sid, "created_at": now(), "tester": user_name, "role": role,
+    row = {"submission_id": sid, "set_id": set_id, "created_at": now(), "tester": user_name, "role": role,
            "consent": "yes" if consent else "no", "step": step, "question_id": question_id,
            "seconds": round(seconds, 1), "status": status}
     if r:
@@ -36,7 +37,8 @@ def submission_row(sid: str, user_name: str, role: str, consent: bool, step: str
                     "n_warnings": len(r.get("warnings", [])),
                     "prompt_version": m.get("prompt_version", ""), "model": m.get("model", ""),
                     "llm_calls": m.get("llm_calls", ""), "input_tokens": m.get("input_tokens", ""),
-                    "output_tokens": m.get("output_tokens", "")})
+                    "output_tokens": m.get("output_tokens", ""),
+                    "cache_read_tokens": m.get("cache_read_tokens", "")})
     if consent:
         row.update({"question": question, "answer": answer,
                     "result_json": json.dumps(r, ensure_ascii=False, separators=(",", ":")) if r else ""})

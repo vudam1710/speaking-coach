@@ -94,5 +94,6 @@ def upgrade(question: str, answer: str, coach_feedback: dict, client: Anthropic 
         "warnings": warnings,
         "meta": {"prompt_version": PROMPT_VERSION, "model": MODEL, "llm_calls": len(usages),
                  "input_tokens": sum(x["input_tokens"] for x in usages),
-                 "output_tokens": sum(x["output_tokens"] for x in usages)},
+                 "output_tokens": sum(x["output_tokens"] for x in usages),
+                 "cache_read_tokens": sum(x.get("cache_read_tokens", 0) for x in usages)},
     }

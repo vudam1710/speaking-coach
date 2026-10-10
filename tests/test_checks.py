@@ -55,6 +55,20 @@ def test_next_level_caps_at_c2():
 
 
 def test_question_bank_shape():
-    qs = json.loads((Path(__file__).parent.parent / "data" / "questions.json").read_text(encoding="utf-8"))["questions"]
-    assert [sum(q["part"] == p for q in qs) for p in (1, 2, 3)] == [10, 10, 20]
-    assert len({q["id"] for q in qs}) == len(qs)
+    sets = json.loads((Path(__file__).parent.parent / "data" / "questions.json").read_text(encoding="utf-8"))["sets"]
+    ids = {s["id"] for s in sets}
+    assert len(ids) == len(sets)
+    for s in sets:
+        assert (len(s["questions"]) == 1) if s["part"] == 2 else (3 <= len(s["questions"]) <= 5), s["id"]
+        if s.get("part3"):
+            assert s["part3"] in ids
+
+
+def test_quota_counts_answers():
+    from core.auth import User, quota_message
+    u = User("a", "student")
+    lim = {"student_daily": 5, "global_daily": 100}
+    assert quota_message(u, 0, 0, lim, needed=5) is None
+    assert "bỏ bớt 2" in quota_message(u, 3, 3, lim, needed=4)
+    assert quota_message(u, 5, 5, lim, needed=1) is not None
+    assert quota_message(u, 0, 99, lim, needed=2) is not None

@@ -32,7 +32,9 @@ def call_tool(system: str, user: str, tool_name: str, tool_description: str, sch
     response = client.messages.create(
         model=MODEL,
         max_tokens=max_tokens,
-        system=system,
+        # Prompt caching: tools + system prompt are identical across calls → cached prefix is billed
+        # at ~10% of the input price for 5 minutes (only the learner's answer is new each time).
+        system=[{"type": "text", "text": system, "cache_control": {"type": "ephemeral"}}],
         tools=[{"name": tool_name, "description": tool_description, "input_schema": schema}],
         tool_choice={"type": "tool", "name": tool_name},   # bắt buộc dùng tool này
         messages=[{"role": "user", "content": user}],
@@ -45,6 +47,8 @@ def call_tool(system: str, user: str, tool_name: str, tool_description: str, sch
     if not blocks:
         raise LLMError(f"Model không gọi tool '{tool_name}'.", raw)
 
-    usage = {"input_tokens": response.usage.input_tokens,
-             "output_tokens": response.usage.output_tokens, "model": MODEL}
+    u = response.usage
+    usage = {"input_tokens": u.input_tokens, "output_tokens": u.output_tokens, "model": MODEL,
+             "cache_read_tokens": getattr(u, "cache_read_input_tokens", 0) or 0,
+             "cache_write_tokens": getattr(u, "cache_creation_input_tokens", 0) or 0}
     return blocks[0].input, usage

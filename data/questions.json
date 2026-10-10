@@ -1,245 +1,316 @@
 {
-  "source": "IELTS Speaking forecast compiled by Tram Nguyen IELTS — https://www.tramnguyenielts.com/post/ielts-speaking-forecast-quy1-2025 (retrieved 2026-10-10). A pilot selection of 40 questions, not the full list.",
-  "questions": [
+  "source": "IELTS Speaking forecast compiled by Tram Nguyen IELTS - https://www.tramnguyenielts.com/post/ielts-speaking-forecast-quy1-2025 (retrieved 2026-10-10; page content labelled Q3/2026). A pilot selection grouped into topic sets, not the full list; Part 3 questions that did not match their Part 2 topic were left out.",
+  "sets": [
     {
-      "id": "p1_01",
+      "id": "p1_tiredness",
       "part": 1,
       "topic": "Tiredness",
-      "question": "What do you do when you feel tired?"
+      "questions": [
+        "Do you often feel tired?",
+        "When would you feel tired?",
+        "What do you do when you feel tired?",
+        "Do you think you get enough rest?"
+      ]
     },
     {
-      "id": "p1_02",
+      "id": "p1_politeness",
       "part": 1,
       "topic": "Politeness",
-      "question": "Do you think being polite is very important?"
+      "questions": [
+        "How did you learn to be polite as a child?",
+        "Do you think being polite is very important?",
+        "Who taught you to be polite when you were young?"
+      ]
     },
     {
-      "id": "p1_03",
+      "id": "p1_recycling",
       "part": 1,
       "topic": "Recycling",
-      "question": "Do you recycle now? Why?"
+      "questions": [
+        "Do you recycle now? Why?",
+        "Did you recycle when you were a kid?",
+        "Will you recycle in the future?",
+        "What kind of things do you recycle?"
+      ]
     },
     {
-      "id": "p1_04",
+      "id": "p1_remembering_names",
       "part": 1,
       "topic": "Remembering names",
-      "question": "How can you strengthen your memory?"
+      "questions": [
+        "Is it easy for you to remember names?",
+        "Will you forget other people's names if others forget your name?",
+        "How can you strengthen your memory?"
+      ]
     },
     {
-      "id": "p1_05",
+      "id": "p1_keeping_things_tidy",
       "part": 1,
       "topic": "Keeping things tidy",
-      "question": "Are you a tidy person?"
+      "questions": [
+        "Are you a tidy person?",
+        "Are all of your family members tidy?",
+        "Are you tidier at home or at work/ (school)?"
+      ]
     },
     {
-      "id": "p1_06",
+      "id": "p1_social_media",
       "part": 1,
       "topic": "Social media",
-      "question": "Do you think you or your friends use too much social media?"
+      "questions": [
+        "Do you like to use social media?",
+        "Do you think you or your friends use too much social media?",
+        "Do you want to work in social media? Why?",
+        "What's the most popular social media in Vietnam? Why?"
+      ]
     },
     {
-      "id": "p1_07",
+      "id": "p1_advertisements",
       "part": 1,
       "topic": "Advertisements",
-      "question": "How do you feel about advertisements?"
+      "questions": [
+        "Are there many advertisements in your country?",
+        "Why do you think there are so many advertisements now?",
+        "What are the various places where we see advertisements?",
+        "How do you feel about advertisements?"
+      ]
     },
     {
-      "id": "p1_08",
+      "id": "p1_shopping",
       "part": 1,
       "topic": "Shopping",
-      "question": "Do you shop online?"
+      "questions": [
+        "Do you like going shopping?",
+        "Do you shop online?",
+        "Does shopping take you a lot of time?",
+        "What is the best part about shopping?"
+      ]
     },
     {
-      "id": "p1_09",
+      "id": "p1_old_buildings",
       "part": 1,
       "topic": "Old buildings",
-      "question": "Do you think we should keep old buildings in cities?"
+      "questions": [
+        "Have you ever seen some old buildings in the city?",
+        "Do you think we should keep old buildings in cities?",
+        "Do you prefer living in an old building or a modern house?"
+      ]
     },
     {
-      "id": "p1_10",
+      "id": "p1_science",
       "part": 1,
       "topic": "Science",
-      "question": "What's the most difficult part of studying science?"
+      "questions": [
+        "Do you like science?",
+        "What science have you studied?",
+        "How do you study science?",
+        "What's the most difficult part of studying science?",
+        "How has the science that you have studied helped you?"
+      ]
     },
     {
-      "id": "p2_01",
-      "part": 2,
-      "topic": "Decisions",
-      "question": "Describe a time when you changed an important decision of yours"
-    },
-    {
-      "id": "p2_02",
+      "id": "p2_money",
       "part": 2,
       "topic": "Money",
-      "question": "Describe a time when you saved money to buy something you wanted"
+      "questions": [
+        "Describe a time when you saved money to buy something you wanted"
+      ],
+      "part3": "p3_money"
     },
     {
-      "id": "p2_03",
+      "id": "p2_ambitions",
       "part": 2,
-      "topic": "Habits",
-      "question": "Describe an activity you do regularly that you think is a waste of time"
+      "topic": "Ambitions",
+      "questions": [
+        "Describe a long-term goal/ambition you would like to achieve"
+      ],
+      "part3": "p3_ambitions"
     },
     {
-      "id": "p2_04",
+      "id": "p2_technology",
       "part": 2,
-      "topic": "Service",
-      "question": "Describe a time when you received good service in a shop/store"
+      "topic": "Technology",
+      "questions": [
+        "Describe a challenging technological problem you faced"
+      ],
+      "part3": "p3_technology"
     },
     {
-      "id": "p2_05",
+      "id": "p2_medical",
+      "part": 2,
+      "topic": "Medical careers",
+      "questions": [
+        "Describe a person you know who would like to choose a career in the medical field (e.g. a doctor, a nurse)"
+      ],
+      "part3": "p3_medical"
+    },
+    {
+      "id": "p2_rules",
+      "part": 2,
+      "topic": "Laws and rules",
+      "questions": [
+        "Describe a new law you would like to introduce in your country"
+      ],
+      "part3": "p3_rules"
+    },
+    {
+      "id": "p2_traffic",
+      "part": 2,
+      "topic": "Traffic",
+      "questions": [
+        "Describe a time when you were stuck in a traffic jam for a very long time"
+      ],
+      "part3": "p3_traffic"
+    },
+    {
+      "id": "p2_news",
+      "part": 2,
+      "topic": "Local news",
+      "questions": [
+        "Describe a piece of local news that people are interested in"
+      ],
+      "part3": "p3_news"
+    },
+    {
+      "id": "p2_decisions",
+      "part": 2,
+      "topic": "Decisions",
+      "questions": [
+        "Describe an important decision that you made"
+      ],
+      "part3": "p3_decisions"
+    },
+    {
+      "id": "p2_change",
       "part": 2,
       "topic": "Change",
-      "question": "Describe a change that you made recently"
+      "questions": [
+        "Describe a change that you made recently"
+      ],
+      "part3": "p3_change"
     },
     {
-      "id": "p2_06",
+      "id": "p2_languages",
       "part": 2,
-      "topic": "Communication",
-      "question": "Describe a time when you sent a message or an email to someone but received no reply for a long time"
+      "topic": "Languages",
+      "questions": [
+        "Describe a person who is good at learning and speaking new languages"
+      ],
+      "part3": "p3_languages"
     },
     {
-      "id": "p2_07",
-      "part": 2,
+      "id": "p3_money",
+      "part": 3,
+      "topic": "Money",
+      "questions": [
+        "Should schools teach children how to manage money from a young age?",
+        "Should parents teach their children to spend money freely or to save money?",
+        "Do you think it is easier to teach teenagers how to manage money when they are around 13 or 14?",
+        "Is it easier to spend money or save money?",
+        "What kind of things do people usually save money for?"
+      ]
+    },
+    {
+      "id": "p3_ambitions",
+      "part": 3,
+      "topic": "Ambitions",
+      "questions": [
+        "What kinds of ambitions do people have?",
+        "Why should parents encourage children to have ambitions?",
+        "Should parents interfere with children's ambitions?",
+        "Is there any difference between children's ambitions and those of grown-ups?"
+      ]
+    },
+    {
+      "id": "p3_technology",
+      "part": 3,
       "topic": "Technology",
-      "question": "Describe a challenging technological problem you faced"
+      "questions": [
+        "What kinds of technological problems do people often face?",
+        "How has technology made people's lives easier?",
+        "Do you think people depend too much on technology nowadays?",
+        "What should people do when technology fails?",
+        "Will technology become more reliable in the future?"
+      ]
     },
     {
-      "id": "p2_08",
-      "part": 2,
+      "id": "p3_medical",
+      "part": 3,
       "topic": "Medical careers",
-      "question": "Describe a person you know who would like to choose a career in the medical field (e.g. a doctor, a nurse)"
+      "questions": [
+        "Why do some people choose to work in the medical field?",
+        "How does working in a medical-related profession impact a person's life?",
+        "Do you think medical professionals are valued in society?",
+        "How can technology influence medical-related professions in the future?",
+        "What qualities are essential for someone to succeed in a medical profession?"
+      ]
     },
     {
-      "id": "p2_09",
-      "part": 2,
-      "topic": "Law",
-      "question": "Describe a new law you would like to introduce in your country"
+      "id": "p3_rules",
+      "part": 3,
+      "topic": "Laws and rules",
+      "questions": [
+        "Do people in your country usually obey the law?",
+        "What kinds of behaviour are considered as good behavior?",
+        "Do you think children can learn about the law outside of school?",
+        "What are the benefits for people to obey rules?",
+        "How can parents teach children to obey rules?"
+      ]
     },
     {
-      "id": "p2_10",
-      "part": 2,
+      "id": "p3_traffic",
+      "part": 3,
       "topic": "Traffic",
-      "question": "Describe a time when you were stuck in a traffic jam for a very long time"
+      "questions": [
+        "Which vehicles are more likely to be in a traffic jam, cars or buses?",
+        "What do you think of people who always drive their car, even when they could just as easily use public transportation?",
+        "Do you feel that traffic congestion in your hometown is better, or worse than it used to be?",
+        "Do you think only the government has the power to manage the problem of traffic jams?"
+      ]
     },
     {
-      "id": "p3_01",
+      "id": "p3_news",
+      "part": 3,
+      "topic": "Local news",
+      "questions": [
+        "How do people usually get local news nowadays?",
+        "Do you think local news is more important than international news? Why?",
+        "Why are some news stories more popular than others?",
+        "Do social media affect the way people receive news?"
+      ]
+    },
+    {
+      "id": "p3_decisions",
       "part": 3,
       "topic": "Decisions",
-      "question": "When do most children begin to make their own decisions?"
+      "questions": [
+        "What decisions do people usually make in their daily lives?",
+        "Which is easier, making a decision by yourself or making a decision after group discussion?",
+        "Why are many young people unwilling to follow their parents' advice?",
+        "Why would middle-aged people tend to second-guess their own decisions?"
+      ]
     },
     {
-      "id": "p3_02",
+      "id": "p3_change",
       "part": 3,
-      "topic": "Money",
-      "question": "Should schools teach children how to manage money from a young age?"
+      "topic": "Change",
+      "questions": [
+        "Is it easier for young people to change?",
+        "Is it easy for old people to change?",
+        "How can people change their daily routine if they want to?",
+        "What are the disadvantages when people keep making changes?"
+      ]
     },
     {
-      "id": "p3_03",
+      "id": "p3_languages",
       "part": 3,
-      "topic": "Money",
-      "question": "Is it easier to spend money or save money?"
-    },
-    {
-      "id": "p3_04",
-      "part": 3,
-      "topic": "Pressure",
-      "question": "What kinds of things make people feel pressured?"
-    },
-    {
-      "id": "p3_05",
-      "part": 3,
-      "topic": "Rules",
-      "question": "Why do some people refuse to abide by rules?"
-    },
-    {
-      "id": "p3_06",
-      "part": 3,
-      "topic": "Service",
-      "question": "What do people do when they get bad service?"
-    },
-    {
-      "id": "p3_07",
-      "part": 3,
-      "topic": "Ambitions",
-      "question": "Why should parents encourage children to have ambitions?"
-    },
-    {
-      "id": "p3_08",
-      "part": 3,
-      "topic": "Ambitions",
-      "question": "Should parents interfere with children's ambitions?"
-    },
-    {
-      "id": "p3_09",
-      "part": 3,
-      "topic": "Technology",
-      "question": "Do you think people depend too much on technology nowadays?"
-    },
-    {
-      "id": "p3_10",
-      "part": 3,
-      "topic": "Technology",
-      "question": "What should people do when technology fails?"
-    },
-    {
-      "id": "p3_11",
-      "part": 3,
-      "topic": "Medical careers",
-      "question": "Why do some people choose to work in the medical field?"
-    },
-    {
-      "id": "p3_12",
-      "part": 3,
-      "topic": "Medical careers",
-      "question": "Do you think medical professionals are valued in society?"
-    },
-    {
-      "id": "p3_13",
-      "part": 3,
-      "topic": "Business",
-      "question": "What are the advantages and disadvantages of family businesses?"
-    },
-    {
-      "id": "p3_14",
-      "part": 3,
-      "topic": "Law",
-      "question": "Do people in your country usually obey the law?"
-    },
-    {
-      "id": "p3_15",
-      "part": 3,
-      "topic": "Law",
-      "question": "How can parents teach children to obey rules?"
-    },
-    {
-      "id": "p3_16",
-      "part": 3,
-      "topic": "Traffic",
-      "question": "Do you think only the government has the power to manage the problem of traffic jams?"
-    },
-    {
-      "id": "p3_17",
-      "part": 3,
-      "topic": "Traffic",
-      "question": "What do you think of people who always drive their car, even when they could just as easily use public transportation?"
-    },
-    {
-      "id": "p3_18",
-      "part": 3,
-      "topic": "Environment",
-      "question": "What environmental laws does your country already have?"
-    },
-    {
-      "id": "p3_19",
-      "part": 3,
-      "topic": "News",
-      "question": "Do you think local news is more important than international news? Why?"
-    },
-    {
-      "id": "p3_20",
-      "part": 3,
-      "topic": "News",
-      "question": "Do social media affect the way people receive news?"
+      "topic": "Languages",
+      "questions": [
+        "At what age should children start learning a foreign language?",
+        "Which skill is more important, speaking or writing?",
+        "Does a person still need to learn other languages if he or she is good at English?",
+        "Do you think minority languages will disappear?"
+      ]
     }
   ]
 }
