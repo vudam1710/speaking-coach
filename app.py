@@ -39,6 +39,7 @@ from core.summary import set_summary  # noqa: E402
 from core.storage import SheetStore, now, submission_row  # noqa: E402
 from core.upgrade import apply_changes, upgrade  # noqa: E402
 from evaluation.render import PROBLEMS_VI as PROBLEMS  # noqa: E402  (same labels as review_items.csv)
+from ui.dashboard import render as render_dashboard  # noqa: E402
 from ui.export import build_html, file_name  # noqa: E402
 from ui.theme import apply_theme, brand, contact, hero  # noqa: E402
 
@@ -319,11 +320,18 @@ with st.sidebar:
         st.caption(f"Còn {remaining(user, st.session_state.used, secret('limits'))} câu trả lời hôm nay")
     if store is None:
         st.warning("Chế độ chưa lưu dữ liệu (thiếu cấu hình Google Sheet).")
+    page = "Luyện nói"
+    if user.role == "reviewer":
+        page = st.radio("Trang", ["Luyện nói", "📊 Thống kê"], label_visibility="collapsed")
     if st.button("Đăng xuất"):
         st.session_state.clear()
         st.rerun()
 
 brand()
+
+if page == "📊 Thống kê":
+    render_dashboard(store)
+    st.stop()
 
 # ---- result page
 if "result" in st.session_state:

@@ -4,6 +4,12 @@
 > Mọi câu trả lời + toàn bộ nhận xét đều được lưu (học sinh được báo trên trang nhập bài).
 > Một vòng = kéo dữ liệu → đọc + chấm → `score.py` → sửa **một** thứ → ghi `EXPERIMENTS.md`.
 
+## 0. Xem nhanh trên app: trang 📊 Thống kê
+Đăng nhập bằng mã reviewer → thanh bên trái chọn **📊 Thống kê**: số câu / bộ / người dùng, chi phí, thời gian chờ,
+**học sinh hay bí ở đâu** (chỗ tiếng Việt xuất hiện nhiều nhất), chiến lược tool gợi ý, tỉ lệ bấm nâng cấp / nói lại,
+bảng từng học sinh (số câu, chỗ bí / câu, trình độ, hôm nay đã dùng bao nhiêu), tiến bộ theo tuần, và tỉ lệ ✓ phần bạn chấm trên app.
+Dùng để theo dõi hằng ngày; còn review chi tiết từng nhận xét thì làm theo các bước dưới.
+
 ## 1. Kéo dữ liệu về
 ```powershell
 cd "C:\Users\Vu Dam\OneDrive\Desktop\AI Agents\Project_Portfolio\speaking-coach"

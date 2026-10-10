@@ -47,6 +47,7 @@ Chỉ được thấy `.streamlit/secrets.toml.example`.
 - [ ] Part 2 → nút "Làm tiếp Part 3 cùng chủ đề"
 - [ ] Sheet: tab `submissions` có 1 dòng/câu (step coach / upgrade / practice), đủ câu trả lời + result_json
 - [ ] `python evaluation/pull_sheet.py` → ra file `.md` + `review_items.csv`
+- [ ] Mã reviewer → thanh bên trái **📊 Thống kê** → có số liệu
 - [ ] Thử trên điện thoại
 
 ✅ Xong → `git tag v0.1` → `git push --tags`.
