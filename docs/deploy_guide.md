@@ -41,12 +41,12 @@ Chỉ được thấy `.streamlit/secrets.toml.example`.
 4. Deploy → chờ 2–5 phút. Từ giờ push lên `main` là app tự cập nhật.
 
 ## 6. Kiểm tra trên link thật
-- [ ] Mã sai → bị chặn · mã học sinh thấy 👍/👎 · mã reviewer thấy ✓/~/✗ + loại lỗi
+- [ ] Mã sai → bị chặn · mã học sinh **không** thấy nút đánh giá · mã reviewer thấy ✓/~/✗ + loại lỗi
 - [ ] Part 1: trả lời 2/4 câu → "Nhận xét 2 câu trả lời" → 2 tab + tổng kết
 - [ ] Nâng cấp 1 câu → có chỗ tô vàng
 - [ ] Part 2 → nút "Làm tiếp Part 3 cùng chủ đề"
-- [ ] Sheet: tab `submissions` có 1 dòng/câu, tab `feedback` có đánh giá
-- [ ] Không tick "đồng ý lưu" → Sheet không có nội dung câu trả lời
+- [ ] Sheet: tab `submissions` có 1 dòng/câu (step coach / upgrade / practice), đủ câu trả lời + result_json
+- [ ] `python evaluation/pull_sheet.py` → ra file `.md` + `review_items.csv`
 - [ ] Thử trên điện thoại
 
 ✅ Xong → `git tag v0.1` → `git push --tags`.

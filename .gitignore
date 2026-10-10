@@ -3,3 +3,5 @@ _scratch/
 __pycache__/
 .venv/
 .streamlit/secrets.toml
+evaluation/results/**/raw/
+data/gold/

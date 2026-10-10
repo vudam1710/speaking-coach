@@ -13,7 +13,6 @@ import json
 import os
 import time
 import uuid
-from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
@@ -36,17 +35,17 @@ from core.auth import User, check_code, load_codes, quota_message, remaining  # 
 from core.checks import find_vi_chunks  # noqa: E402
 from core.coach import coach  # noqa: E402
 from core.schema import CHANGE_LABELS_VI, NOTE_LABELS_VI, STRATEGY_LABELS_VI  # noqa: E402
+from core.summary import set_summary  # noqa: E402
 from core.storage import SheetStore, now, submission_row  # noqa: E402
 from core.upgrade import apply_changes, upgrade  # noqa: E402
+from evaluation.render import PROBLEMS_VI as PROBLEMS  # noqa: E402  (same labels as review_items.csv)
 from ui.theme import apply_theme, brand, contact, hero  # noqa: E402
 
 MIN_WORDS = 5
 MAX_WORDS = {1: 150, 2: 400, 3: 250}
 PART_NAMES = {1: "Part 1", 2: "Part 2", 3: "Part 3"}
 STAGGER_SECONDS = 2.0   # let the 1st call write the prompt cache before the others start
-PROBLEMS = {"": "— loại lỗi —", "wrong_meaning": "Sai / lệch ý", "too_hard": "Quá trình độ",
-            "not_simple": "Chưa đủ đơn giản", "unnatural": "Không tự nhiên", "wrong_strategy": "Gắn sai chiến lược",
-            "too_many_changes": "Đổi quá nhiều / mất giọng học sinh", "other": "Khác"}
+
 
 st.set_page_config(page_title="Speaking Coach · LogiQ Hub", page_icon="🗣️", layout="centered")
 apply_theme()
@@ -117,10 +116,9 @@ def rate(sid: str, item_id: str, role: str) -> None:
     st.session_state.setdefault("_items", [])
     if (sid, item_id) not in st.session_state._items:
         st.session_state._items.append((sid, item_id))
-    k = f"{sid}:{item_id}"
-    if role == "student":
-        st.feedback("thumbs", key=k + ":rating")
+    if role != "reviewer":          # students only read & practise; the teacher reviews everything
         return
+    k = f"{sid}:{item_id}"
     c1, c2, c3 = st.columns([2, 3, 5])
     c1.radio("Đánh giá", ["✓", "~", "✗"], index=None, horizontal=True, key=k + ":verdict",
              label_visibility="collapsed")
@@ -131,7 +129,7 @@ def rate(sid: str, item_id: str, role: str) -> None:
 
 def collect(res: dict, user: User) -> list[dict]:
     ss, rows = st.session_state, []
-    items = ss.get("_items", []) + [(res["set_id"], "GENERAL")] + [(it["sid"], "PRACTICE") for it in res["items"]]
+    items = ss.get("_items", []) + [(res["set_id"], "GENERAL")]
     for sid, item in items:
         k = f"{sid}:{item}"
         row = {"submission_id": sid, "created_at": now(), "tester": user.name, "role": user.role, "item_id": item,
@@ -149,22 +147,17 @@ def way_line(w: dict) -> str:
 
 
 def show_summary(res: dict) -> None:
-    """Set-level summary computed by code (no extra LLM call)."""
-    fbs = [it["r"]["feedback"] for it in res["items"] if it.get("r")]
-    stuck = [sp for fb in fbs for sp in fb["stuck_points"]]
-    strategies = Counter(w["strategy"] for sp in stuck for w in sp["simple_ways"])
-    levels = Counter(fb["level_cefr"] for fb in fbs)
+    """Set-level summary computed by code (core/summary.py, no extra LLM call)."""
+    sm = set_summary([it["r"]["feedback"] for it in res["items"] if it.get("r")])
     with st.container(border=True):
         st.markdown("#### 📊 Tổng kết bộ câu hỏi")
         c1, c2, c3 = st.columns(3)
-        c1.metric("Câu đã trả lời", len(fbs))
-        c2.metric("Chỗ bị bí", len(stuck))
-        c3.metric("Trình độ ước lượng", levels.most_common(1)[0][0] if levels else "—")
-        if stuck:
-            st.markdown("**Những chỗ bạn bí:** " + " · ".join(f"«{sp['vi_chunk']}»" for sp in stuck))
-            top, n = strategies.most_common(1)[0]
-            st.markdown(f"**Cách gỡ dùng nhiều nhất:** {STRATEGY_LABELS_VI[top]} ({n}/{sum(strategies.values())} "
-                        "cách nói gợi ý). Lần sau bí từ, thử nghĩ theo hướng này trước.")
+        c1.metric("Câu đã trả lời", sm["n_answers"])
+        c2.metric("Chỗ bị bí", sm["n_stuck"])
+        c3.metric("Trình độ ước lượng", sm["level"])
+        if sm["n_stuck"]:
+            st.markdown("**Những chỗ bạn bí:** " + " · ".join(f"«{c}»" for c in sm["chunks"]))
+            st.markdown(sm["top_strategy_text"])
         else:
             st.markdown("Bạn không để lại chỗ tiếng Việt nào 👏 — xem từng câu để thấy thêm cách nói khác cho cùng ý.")
 
@@ -197,7 +190,10 @@ def show_coach(it: dict, role: str) -> None:
             st.markdown(way_line(w), unsafe_allow_html=True)
         rate(sid, "O", role)
     st.info(f"🎯 {fb['summary_vi']}")
+    rate(sid, "SUM", role)
     if role == "reviewer":
+        st.caption(f"[L] Trình độ ước lượng câu này: **{fb['level_cefr']}**")
+        rate(sid, "L", role)
         for w in r["warnings"]:
             st.warning(w)
         m = r["meta"]
@@ -217,13 +213,20 @@ def show_upgrade(it: dict, role: str) -> None:
     body, _ = apply_changes(html.escape(up["base_answer_en"]), marked)
     with st.container(border=True):
         st.markdown(body, unsafe_allow_html=True)
+        st.caption("Cả bài sau khi nâng cấp — vẫn giống câu trả lời của bạn chứ?")
+        rate(sid, "UP", role)
     for n, c in enumerate(up["changes"], 1):
         with st.container(border=True):
             st.markdown(f"**{n}. {CHANGE_LABELS_VI[c['type']]}**  \n~~{c['original_en']}~~  \n→ *{c['upgraded_en']}*  \n"
                         f"{c['why_vi']}")
             rate(sid, f"U{n}", role)
     st.markdown(f"**🗣️ Đến lượt bạn:** {up['practice_vi']}")
-    st.text_area("Nói lại (gõ ra đây, không bắt buộc — gửi cùng đánh giá cuối trang)", key=f"{sid}:PRACTICE:comment")
+    retell = st.text_area("Nói lại (gõ ra đây, không bắt buộc)", key=f"{sid}:PRACTICE")
+    if retell.strip() and st.button("📩 Gửi cho giáo viên xem", key=f"{sid}:PRACTICE:send"):
+        save(st.session_state.get("_store"), submission_row(
+            sid, st.session_state.result["set_id"], st.session_state.user.name, st.session_state.user.role, True,
+            "practice", it["qid"], it["question"], retell, None, 0, status="ok"))
+        st.success("Đã gửi. Giáo viên sẽ xem bài nói lại của bạn.")
     if role == "reviewer":
         for w in u["warnings"]:
             st.warning(w)
@@ -249,6 +252,24 @@ def upgrade_button(it: dict, res: dict, user: User, store) -> None:
         return
     it["up"] = u
     st.rerun()
+
+
+def reviewer_submit(res: dict, user: User, store) -> None:
+    st.divider()
+    st.text_area("Góp ý chung cho bộ này (không bắt buộc)", key=f"{res['set_id']}:GENERAL:comment")
+    if st.button("📨 Gửi đánh giá", type="primary"):
+        rows = collect(res, user)
+        if not rows:
+            st.warning("Bạn chưa đánh giá mục nào.")
+        elif store:
+            try:
+                store.add_feedback(rows)
+                st.success(f"Đã gửi {len(rows)} đánh giá.")
+            except Exception as e:
+                st.error(f"Chưa gửi được, thử lại nhé. ({e})")
+        else:
+            st.info("Chế độ dev — không lưu. Dữ liệu sẽ gửi:")
+            st.json(rows)
 
 
 # ------------------------------------------------------------------ analysis
@@ -282,6 +303,7 @@ def run_set(todo: list[dict]) -> None:
 # ------------------------------------------------------------------ main page
 user = login()
 store = store_or_none()
+st.session_state._store = store
 if store is None and user.role == "student":
     # No Sheet → no quota enforcement → students could spend unlimited tokens. Only reviewers/dev may continue.
     brand()
@@ -333,23 +355,11 @@ if "result" in st.session_state:
                 show_upgrade(it, user.role)
             else:
                 upgrade_button(it, res, user, store)
-    st.divider()
-    st.text_area("Góp ý chung (không bắt buộc)", key=f"{res['set_id']}:GENERAL:comment")
-    if st.button("📨 Gửi đánh giá", type="primary"):
-        rows = collect(res, user)
-        if not rows:
-            st.warning("Bạn chưa đánh giá mục nào.")
-        elif store:
-            try:
-                store.add_feedback(rows)
-                st.success(f"Đã gửi {len(rows)} đánh giá. Cảm ơn bạn!")
-            except Exception as e:
-                st.error(f"Chưa gửi được, bạn thử lại nhé. ({e})")
-        else:
-            st.info("Chế độ dev — không lưu. Dữ liệu sẽ gửi:")
-            st.json(rows)
+    if user.role == "reviewer":
+        reviewer_submit(res, user, store)
     contact("result")
     st.stop()
+
 
 # ---- input page
 hero(big=False)
@@ -377,9 +387,9 @@ for n, q in enumerate(qset["questions"], 1):
     answers.append((n, q, a, wc))
 
 filled = [(n, q, a, wc) for n, q, a, wc in answers if a.strip()]
-consent = st.checkbox("Mình đồng ý cho lưu câu hỏi và câu trả lời để cải thiện công cụ (không bắt buộc)")
-st.caption("Câu trả lời được gửi tới AI (Anthropic) để nhận xét. Nếu không tick ô trên, chỉ lưu số liệu thống kê. "
-           "Mỗi câu trả lời tính là 1 lượt.")
+consent = True   # pilot: every answer + feedback is stored so the teacher can review all of it
+st.caption("Câu trả lời được gửi tới AI (Anthropic) để nhận xét, và được **lưu lại để giáo viên đọc** "
+           "và kiểm tra nhận xét của công cụ. Mỗi câu trả lời tính là 1 lượt.")
 
 if st.button(f"🔎 Nhận xét {len(filled)} câu trả lời" if filled else "🔎 Nhận xét", type="primary"):
     if not filled:

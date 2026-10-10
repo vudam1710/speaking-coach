@@ -2,7 +2,8 @@
 
 Adapted from writing-coach. Tab `submissions`: 1 row per LLM step per answer (step = coach | upgrade); set_id groups the answers
 of one topic set, submission_id = one answer.
-Without consent, question_text / answer / result_json are left empty.
+Pilot: consent is always "yes" (learners are told on the page that answers are stored for the teacher to review).
+step = practice: the learner's retell after an upgrade (answer column).
 Tab `feedback`: 1 row per rated item (student: up/down; reviewer: ✓/~/✗ + problem + comment).
 Tabs and headers are created on first run.
 """
