@@ -282,6 +282,11 @@ def run_set(todo: list[dict]) -> None:
 # ------------------------------------------------------------------ main page
 user = login()
 store = store_or_none()
+if store is None and user.role == "student":
+    # No Sheet → no quota enforcement → students could spend unlimited tokens. Only reviewers/dev may continue.
+    brand()
+    st.error("Hệ thống đang bảo trì, bạn quay lại sau ít phút nhé.")
+    st.stop()
 sets = load_sets()
 by_id = {s["id"]: s for s in sets}
 
