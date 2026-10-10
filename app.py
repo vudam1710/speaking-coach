@@ -39,6 +39,7 @@ from core.summary import set_summary  # noqa: E402
 from core.storage import SheetStore, now, submission_row  # noqa: E402
 from core.upgrade import apply_changes, upgrade  # noqa: E402
 from evaluation.render import PROBLEMS_VI as PROBLEMS  # noqa: E402  (same labels as review_items.csv)
+from ui.export import build_html, file_name  # noqa: E402
 from ui.theme import apply_theme, brand, contact, hero  # noqa: E402
 
 MIN_WORDS = 5
@@ -339,6 +340,12 @@ if "result" in st.session_state:
         st.session_state.pick = qset["part3"]
         st.rerun()
     st.markdown(f"### {PART_NAMES[qset['part']]} · {qset['topic']}")
+    export_items = [{**it, "retell": st.session_state.get(f"{it['sid']}:PRACTICE", "")} for it in res["items"]]
+    st.download_button("📥 Tải nhận xét về để ôn lại", type="primary", on_click="ignore",
+                       data=build_html(qset["part"], qset["topic"], export_items).encode("utf-8"),
+                       file_name=file_name(qset["topic"]), mime="text/html",
+                       help="File HTML: mở bằng trình duyệt; muốn PDF thì bấm Ctrl+P → Lưu thành PDF. "
+                            "Bấm Nâng cấp ở các câu trước rồi tải để có cả phần nâng cấp.")
     show_summary(res)
     done = [it for it in res["items"] if it.get("r")]
     for it in res["items"]:
